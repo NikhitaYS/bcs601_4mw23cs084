@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Analyzer App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Number Analyzer App</h1>
+        <p class="subtitle">BCS601 Project - Analyze a number using multiple operations</p>
+
+        <form method="post">
+            <label for="number">Enter the number:</label>
+            <input type="number" id="number" name="number" min="0" required>
+            <button type="submit">Analyze</button>
+        </form>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if result %}
+            <div class="card">
+                <h2>Result for {{ result.number }}</h2>
+                <ul>
+                    <li><strong>Prime Check:</strong> {{ result.prime }}</li>
+                    <li><strong>Parity:</strong> {{ result.parity }}</li>
+                    <li><strong>Sum of Digits:</strong> {{ result.digit_sum }}</li>
+                    <li><strong>Factorial:</strong> {{ result.factorial }}</li>
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="card">
+            <h2>Recent Analysis History</h2>
+            {% if history %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Prime</th>
+                            <th>Even/Odd</th>
+                            <th>Digit Sum</th>
+                            <th>Factorial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in history %}
+                            <tr>
+                                <td>{{ row.number }}</td>
+                                <td>{{ "Prime" if row.is_prime else "Not Prime" }}</td>
+                                <td>{{ row.parity }}</td>
+                                <td>{{ row.digit_sum }}</td>
+                                <td>{{ row.factorial_value }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No records yet. Analyze a number to create entries.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
